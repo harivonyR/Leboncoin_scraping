@@ -2,9 +2,7 @@
 """
 Created on Sat Nov  1 17:44:28 2025
 
-@author: Lenovo
---------------------------------------------------------------------
-FILTER AND QUERY BUILDER
+@author: harivonyratefiarison
 
 """
 
@@ -25,7 +23,8 @@ def query_builder(page=1, **kwargs):
     ad_type    :  offer/demand
     owner_type :  private/professionnel 
     urgent     :  1 or None
-
+    price      :  10-1000 (min-max)
+    
     sample query : https://www.leboncoin.fr/recherche?category=1&ad_type=demand&urgent=1&owner_type=pro&sort=price&order=desc
     """
 
