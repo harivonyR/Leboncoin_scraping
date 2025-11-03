@@ -3,68 +3,63 @@
 Created on Thu Oct 30 19:44:47 2025
 
 @author: harivonyratefiarison
-
 """
 
 from script.piloterr import leboncoin_search
 from utils.leboncoin import query_builder
+from datetime import datetime
 from tqdm import tqdm
 import json
 import time
-from datetime import datetime
-import os
 
-# Settings
-category = "2"
+# Category to scrape (see the list in output/leboncoin_categories_with_id)
+categories = ["2", "3", "6"]
 
-data = []
-page = 1
-max_page = None  # unknown at start
+# Search Filter
+search_param = {
+    "page": "{page}",
+    "category": "{category}",
+    "order": "desc",
+    "sort": "price",
+    "urgent": "1"
+}
 
-# Initial request to determine total pages
-init_url = query_builder(
-    page=page,
-    category=category,
-    order="desc",
-    sort="price",
-    urgent="1"
-)
-response = leboncoin_search(init_url)
-result = json.loads(response.text)
-max_page = result.get("max_pages", 1)
-print(f"Total pages to scrape: {max_page}")
+for cat in categories:
+    data = []
+    page = 1
+    max_page = None
+    pbar = None
 
-# Add first page result
-data.append(result)
+    while True:
+        # Build URL and Fill Placeholder
+        search_url = query_builder(search_param).replace("{page}", str(page)).replace("{category}", cat)
 
-# Scrape with tqdm progress bar
-for page in tqdm(range(2, max_page + 1), desc="Scraping Leboncoin", unit="page"):
-    search_url = query_builder(
-        page=page,
-        category=category,
-        order="desc",
-        sort="price",
-        urgent="1"
-    )
-
-    try:
+        # Request API
         response = leboncoin_search(search_url)
         result = json.loads(response.text)
+
+        # Discover total pages on first request
+        if max_page is None:
+            max_page = result.get("max_pages", 1)
+            pbar = tqdm(total=max_page, desc=f"Category {cat}", unit="page", leave=False)
+
         data.append(result)
-        time.sleep(2)  # prevent rate limit
-    except json.JSONDecodeError:
-        tqdm.write(f"❌ JSON decoding error on page {page}")
-        continue
-    except Exception as e:
-        tqdm.write(f"❌ Request failed on page {page}: {e}")
-        break
+        pbar.update(1)
 
-# Export JSON
-today = datetime.now()
-output_path = f"output/category_{category}_{today.day}_{today.month}_{today.year}.json"
+        # Stop when all pages processed
+        if page >= max_page:
+            break
 
-with open(output_path, "w", encoding="utf-8") as f:
-    json.dump(data, f, ensure_ascii=False, indent=2)
+        page += 1
+        time.sleep(5)
 
-print(f"\n✅ Scraping completed: {len(data)} pages retrieved")
-print(f"📦 Data exported to: {output_path}")
+    pbar.close()
+
+    # Export JSON
+    today = datetime.now()
+    output_path = f"output/category{cat}_{today.day}_{today.month}_{today.year}.json"
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    print(f"\n✅ Category {cat}: {len(data)} pages scraped.")
+    print(f"📦 Exported to: {output_path}")
