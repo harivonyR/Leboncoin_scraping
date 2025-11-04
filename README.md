@@ -52,9 +52,8 @@ python main.py
 ```
 
 > 💡 Categories are identified by numerical IDs.  
-> You can find all category IDs in: `output/leboncoin_categories_with_id.xlsx`
+> You can find all category IDs here : [Leboncoin Categories IDs - csv](https://raw.githubusercontent.com/harivonyR/Leboncoin_scraping/d5c3052ddf510c3fff1c308bc6f9179fb552ab96/output/leboncoin_catagories_with_id.csv)
 
----
 
 ## Notes
 
@@ -62,14 +61,9 @@ python main.py
 - Each category generates its own timestamped JSON file.  
 - You can extend the scraper by adding pagination, error handling, or automated daily jobs.
 
----
 
 ## License
 
 This project is distributed under the MIT License.  
 See the `LICENSE` file for details.
 
----
-
-**Author:** Harivonyratefiarison  
-Contact: [GitHub Profile](https://github.com/harivonyR)
