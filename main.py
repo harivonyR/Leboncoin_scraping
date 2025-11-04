@@ -13,6 +13,10 @@ import json
 import time
 
 # Category to scrape (see the list in output/leboncoin_categories_with_id)
+#
+#
+#
+
 categories = ["2", "3", "6"]
 
 # Search Filter
