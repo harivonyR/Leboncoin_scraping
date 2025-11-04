@@ -3,7 +3,6 @@
 Leboncoin_Scraping is a Python project designed to extract classified ads data from **Leboncoin** using the **Piloterr Search API**.  
 It takes one or multiple category IDs as input, retrieves the results, and exports them into structured JSON files for further analysis.
 
----
 
 ## 🚀 Use Cases
 
@@ -12,7 +11,6 @@ It takes one or multiple category IDs as input, retrieves the results, and expor
 - **Machine Learning & NLP Training** – Build datasets for predictive modeling or sentiment analysis.
 - **Competitor Analysis** – Scrape multiple categories to compare seller strategies.
 
----
 
 ## Get Started
 
