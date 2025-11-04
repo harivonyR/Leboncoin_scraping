@@ -44,8 +44,10 @@ x_api_key = "YOUR_API_KEY_HERE"
 ```
 
 ### 4. Run the script
-
-Edit the list of categories to scrape in `main.py`, then run:
+in  `main.py` :
++ Check the list of `categories` to scrape
++ Edit the `search_param`
++ **then run main.py**
 
 ```bash
 python main.py

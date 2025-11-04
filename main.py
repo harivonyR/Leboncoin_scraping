@@ -12,14 +12,19 @@ from tqdm import tqdm
 import json
 import time
 
-# Category to scrape (see the list in output/leboncoin_categories_with_id)
-#
-#
-#
-
+# 1. Category to scrape (see the list in output/leboncoin_categories_with_id)
 categories = ["2", "3", "6"]
 
-# Search Filter
+# 2. Search Filter
+"""
+    category   :  1, 2, 3, ...
+    sort       :  time/price 
+    order      :  asc/desc
+    ad_type    :  offer/demand
+    owner_type :  private/professionnel 
+    urgent     :  1 or None
+    price      :  10-1000 (min-max)
+"""
 search_param = {
     "page": "{page}",
     "category": "{category}",
@@ -28,6 +33,7 @@ search_param = {
     "urgent": "1"
 }
 
+# 3. Scrape & Export Data
 for cat in categories:
     data = []
     page = 1
