@@ -13,7 +13,7 @@ from script.piloterr import leboncoin_search
 import pandas as pd
 from urllib.parse import urlencode
 
-def query_builder(page=1, **kwargs):
+def query_builder(**kwargs):
     """
     Build a Leboncoin search query dynamically from non-null parameters.
     
@@ -30,9 +30,8 @@ def query_builder(page=1, **kwargs):
 
     base_url = "https://www.leboncoin.fr/recherche?"
 
-    # filter non empty params
+    # replace placeholder before encoding
     params = {k: v for k, v in kwargs.items() if v not in [None, ""]}
-
     return f"{base_url}&{urlencode(params, doseq=True)}"
 
 
@@ -107,7 +106,7 @@ def get_category_list(max_jump: int = 5, max_cat: int = 100) -> List[Dict[str, A
 
 
 if __name__ == "__main__":
-    # 
+    """
     categories = get_category_list(max_jump=5, max_cat=200)
     df = pd.DataFrame(categories)
 
@@ -115,4 +114,13 @@ if __name__ == "__main__":
 
     print(f"\nExported {len(df)} categories to 'output/leboncoin_catagories_with_id.xlsx'\n")
     print(df)
+    """
+    search_param = {
+        "page": "_page_",
+        "category": "_category_",
+        "order": "desc",
+        "sort": "time",
+        "ad_type": "offer"
+    }
+    search_url = query_builder(**search_param).replace("_page_", str(2)).replace("_category_", str(2))
     

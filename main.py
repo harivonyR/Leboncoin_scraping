@@ -22,15 +22,15 @@ categories = ["2", "3", "6"]
     order      :  asc/desc
     ad_type    :  offer/demand
     owner_type :  private/professionnel 
-    urgent     :  1 or None
+    urgent     :  1 (or delete if not urgent)
     price      :  10-1000 (min-max)
 """
 search_param = {
-    "page": "{page}",
-    "category": "{category}",
+    "page": "_page_",
+    "category": "_category_",
     "order": "desc",
-    "sort": "price",
-    "urgent": "1"
+    "sort": "time",
+    "ad_type": "offer"
 }
 
 # 3. Scrape & Export Data
@@ -42,8 +42,8 @@ for cat in categories:
 
     while True:
         # Build URL and Fill Placeholder
-        search_url = query_builder(search_param).replace("{page}", str(page)).replace("{category}", cat)
-
+        search_url = query_builder(**search_param).replace("_page_", str(page)).replace("_category_", cat)
+        #print(search_url)
         # Request API
         response = leboncoin_search(search_url)
         result = json.loads(response.text)
